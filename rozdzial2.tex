@@ -66,9 +66,25 @@ Kilka lat później Russel wraz z Anną Weiss oraz Geraldem Mendelsohnem przedst
 Model emocji przedstawiony przez Russela oraz skala opisana w Affect Grid stały się jednymi z bardziej popularnych form przedstawiania emocji w informatyce afektywnej. Ogromną zaletą jest przede wszystkim łatwość przetwarzania danych opartych na dwuwymiarowej skali, które określają dane stany emocjonalne. Skalę tą można zauważyć między innymi w zbiorach danych zawierających powiązania między reakcjami fizjologicznymi a odpowiednimi wartościami wartościowości i pobudzenia~\cite{deap_dataset_2011,amigos_dataset_2017}. 
 
 \section{Pętla afektywna}
-\url{https://www.researchgate.net/publication/220962601_Affective_Loop_Experiences_-_What_Are_They/link/0deec530769158251e000000/download}
-Co to jest pętla afektywna, jaki jest schemat pętli
+Do realizacji celów zakładanych przez informatykę afektywną~\cite{Picard:1997:AC:265013} wykorzystywana jest pętla afektywna. To pochodzące z dziedziny Automatyki i Robotyki pojęcie zakłada, że system oraz środowisko są zaangażowane w ciągłą interakcję między sobą. Schemat pętli został przedstawiony na rysunku~\ref{fig:affective_loop}. Kristina Höök przedstawiła definicję pętli afektywnej w formie trzech kroków~\cite{affective_loop_experiences}:
+\begin{enumerate}
+	\item Użytkownicy wyrażają emocje poprzez pewne  interakcje obejmujące ich ciało, na przykład gesty czy inne akcje wpływające na środowisko.
+	\item Środowisko następnie odpowiada, generując elementy afektywne, używając na przykład kolorów, animacji czy innej formy, która może wpłynąć na użytkowników.
+	\item Elementy afektywne wpływają na reakcję użytkowniów, co prowadzi do coraz większego ich zaangażowania w interakcję ze środowiskiem.
+\end{enumerate}
 
+Jak widać, istotnym elementem pętli jest sposób określenia stanów emocjonalnych danej osoby. Spoglądając na rozwiązania praktyczne, można zauważyć, że duże znaczenie ma tutaj wykorzystanie sztucznej inteligencji do przewidywania emocji na podstawie reakcji fizjologicznych~\cite{emotional_context_geist_2019}. Wykorzystywane są tutaj przede wszystkim wcześniej opisane modele Ekmana~\cite{Ekman1971ConstantsAC} oraz Russela~\cite{circumplex_model_russel_1980}, które przedstawiają emocję w formie zrozumiałej dla komputera. Same emocje są natomiast przewidywane na podstawie odczytów reakcji fizjologicznych użytkowników, a także ich interakcji ze środowiskiem.
+
+Określenie stanu emocjonalnego użytkownika oraz wzięcie pod uwagę jego interakcji ze środowiskiem pozwala na generację w środowisku sytuacji, które wpłyną na użytkownika tak, aby ten mógł zareagować w odpowiedni sposób i zwiększać swoje zaangażowanie w interakcję ze środowiskiem. 
+
+Dobrym przykładem systemów wykorzystujących pętlę afektywną są systemy świadome kontekstu takie jak afektywne odtwarzacze muzyki~\cite{Janssen2012,ChrzanowskaInzynierska}, które na podstawie sygnałów odczytanych od użytkownika modyfikują listę piosenek do odtworzenia, w taki sposób, aby dopasować ją do aktualnego stanu emocjonalnego użytkownika i w jakiś sposób na niego wpłynąć.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\linewidth]{images/affective_loop.png}
+	\caption{Cykl pętli afektywnej, źródło: opracowanie własne na podstawie~\cite{affective_loop_experiences}}
+	\label{fig:affective_loop}
+\end{figure}
 
 
 \section{Gry z pętlą afektywną}
