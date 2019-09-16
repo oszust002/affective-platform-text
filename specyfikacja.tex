@@ -30,7 +30,35 @@ Rozwiązaniem będącym pomostem między kosztownymi platformami medycznymi a~cz
 Do wspomnianej na początku drugiej kategorii urządzeń, z~których możliwe jest odczytanie sygnałów pośrednich wykorzystanych do określenia stanu użytkownika, można przede wszystkim zaliczyć sprzęty wykorzystywane przez graczy. Mowa tutaj między innymi o~myszkach, klawiaturach czy padach, z~których możliwe jest odczytanie intensywności kliknięć lub odczyt szybkości poruszania myszką na podstawie jej pozycji na ekranie~\cite{measuring_emotion_from_gamepad}. Szczególną uwagę należy poświęcić padowi Dualshock 4 od firmy Sony, który w~przeciwieństwie do większości spopularyzowanych kontrolerów do gier posiada wbudowany akcelerometr oraz żyroskop, które mogą posłużyć jako dodatkowe źródło informacji do określenia stanu emocjonalnego użytkownika~\cite{dualshock_specification}. Niestety ze względu na umowy licencyjne oprogramowanie umożliwiające odczyt tych parametrów z~pada, jest płatne, co można zaliczyć jako wadę tego rozwiązania z~perspektywy twórcy aplikacji wykorzystującej funkcjonalności Dualshocka.
 
 \section{Możliwe mechanizmy do rozpoznawania emocji}
-Opis modeli predykcji (random forest, extra trees, SVM, sieci neuronowe), krótko
+Aby określić emocje występujące u użytkownika na podstawie danych zebranych przy pomocy wybranych urządzeń, należy zaimplementować mechanizm sztucznej inteligencji, który jak najlepiej będzie umieć określić stan emocjonalny gracza. 
+
+Poniżej przedstawiono i~opisano kilka wybranych metod wnioskowania, które mogłyby posłużyć jako algorytmy do modelu rozpoznającego stan emocjonalny użytkownika na podstawie zebranych danych fizjologicznych.
+
+\subsection{Lasy losowe}
+Lasy losowe są metodą uczenia maszynowego, która polega na zbudowaniu wielu drzew decyzyjnych, wykonaniu na nich klasyfikacji, a~następnie wybraniu klasy poprzez zasadę większości (rys. \ref{fig:random_forest}). Każde takie drzewo składa się z~wierzchołków, z~których wewnętrzne nazywane węzłami zawierają pytania i~warunki dotyczące sprawdzanych cech, natomiast zewnętrzne wierzchołki nazywane liśćmi zawierają decyzję o~klasyfikacji obiektów. Z~każdego węzła wychodzi tyle gałęzi, ile jest możliwych wyników warunku sprawdzanego na danym węźle.
+
+Dla każdego z~drzew decyzyjnych wybierany jest podzbiór wejściowego zbioru danych za pomocą metody bootstrap, polegającej na losowaniu ze zwracaniem elementów z~podanego zbioru~\cite{flach_2012}. Liczność podzbiorów jest taka sama jak wejściowego zbioru danych, co oznacza, że niektóre elementy mogą znaleźć się w~nich więcej niż raz, a~inne w~ogóle nie zostaną uwzględnione. Dla każdego z~drzew wybierany jest także podzbiór cech, które będą brane pod uwagę przy tworzeniu wierzchołków drzewa. W~każdym węźle podział jest wybierany na podstawie tego, jak wiele informacji na temat wyboru klasy można uzyskać nam wybrany podzbiór cech.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/random_forest.png}
+	\caption{Uproszczony przykład działania metody lasów losowych}
+	\label{fig:random_forest}
+\end{figure}
+
+\subsection{Drzewa ekstremalnie losowe} 
+Metoda ta jest bardzo podobna do lasów losowych, z~dwoma istotnymi różnicami. Pierwszą jest brak tworzenia podzbiorów trenujących dla drzew. Każde z~nich jest uczone na tym samym zbiorze danych. Drugą różnicą jest sposób wyboru punktu podziału, który jest zupełnie losowy. Taka metoda zapewnia dużo mniejszy koszt obliczeń w~porównaniu do lasów losowych, ponieważ nie tracimy czasu na sprawdzenie, który z~podziałów daje najlepsze rezultaty.
+
+\subsection{Support Vector Machines} 
+Jest to metoda wykorzystywana głównie w~przypadku klasyfikacji. Głównym celem jest znalezienie linii lub hiperpłaszczyzny, która podzieli badany zbiór danych na dwie różne klasy. Ponieważ takich rozwiązań może być nieskończenie wiele, wprowadzone zostało pojęcie marginesu. Poprzez równoległe przesuwanie granicy do pierwszych punktów z~obu klas otrzymuje się dwie hiperpłaszczyzny. Marginesem natomiast określa się odległość między nimi. Zadaniem Support Vector Machines jest znalezienie takiej hiperpłaszczyzny, która maksymalizuje margines. (rys. \ref{fig:svm}). Przypadki uczące, na których oparte są równoległe hiperpłaszczyzny, nazywane są wektorami wsparcia.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{images/svm.png}
+	\caption{Przykład optymalnej linii maksymalizującej margines. Przypadki zaznaczone czerwonymi okręgami są wektorami wsparcia, źródło:~\cite{flach_2012} }
+	\label{fig:svm}
+\end{figure}
+
 \section{Narzędzia do budowy gier}
 Tworzenie gier komputerowych jest złożonym procesem, wymagającym pracy w~ramach wielu dziedzin naukowych. W~przypadku przygotowywania wysokobudżetowych produkcji przy pracy nad nimi potrafi pracować nawet kilkaset osób. Od projektantów poziomów, przez osoby zajmujące się przygotowaniem sceny fabularnej, grafików, kompozytorów muzyki aż po twórców oprogramowania, którzy łączą wcześniej przygotowane elementy w~jedną całość. To właśnie ci ostatni odpowiadają za ostateczną wersję gry, jej wygląd oraz optymalizację. 
 
@@ -71,13 +99,13 @@ Unreal Engine jest silnikiem, który przez wiele lat był wykorzystywany jedynie
 
 Spośród opisywanych rozwiązań, Unreal Engine jest najbardziej rozbudowanym. Podobnie do Unity umożliwia tworzenie gier na większość dostępnych platform, w~tym także okularów wirtualnej rzeczywistości. Językiem programowania wykorzystywanym do projektowania gier w~tym silniku jest C++, co można traktować jako wadę, ponieważ jest to język trudny i~wymagający dużo czasu na opanowanie. Z~drugiej strony jednak gry napisane przy pomocy C++ potrafią działać szybciej i~płynniej od rozwiązań stworzonych przy pomocy języków wysokopoziomowych. Ogromną zaletą silnika, która wyróżnia go na tle innych rozwiązań, jest dostęp do kodu źródłowego. Dzięki temu, twórcy gier mogą dostosować, a~nawet rozszerzyć możliwości platformy. 
 
-Dla osób niepracujących z~kodem Unreal Engine udostępnia rozbudowany interfejs, pozwalający na stworzenie gry bez konieczności pisania kodu. Podobnie jak w~przypadku Unity, projekt gry składa się z~powiązanych ze sobą scen, tutaj nazywanych poziomami. Na każdej ze scen umieszczone są obiekty, nazywane aktorami, pomiędzy którymi zaprogramowane są interakcje specyficzne dla danej sceny. Osoba tworząca grę może zaprogramować jej logikę przy pomocy skryptów wizualnych. Tutaj warto opisać kolejny atut wyróżniający ten silnik na tle innych, którym jest możliwość korzystania z~edytora przy pomocy okularów wirtualnej rzeczywistości podczas tworzenia gier na tę platformę (rys. \ref{fig:unreal_vr_editor}). Twórca dostaje możliwość dokładnego zaprojektowania świata gry, patrząc na nią od razu z~perspektywy gracza. 
-
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{images/unreal_vr_editor.jpg}
 	\caption{Interfejs edytora Unreal Engine w~wirtualnej rzeczywistości, źródło:~\cite{unreal_manual}}
 	\label{fig:unreal_vr_editor}
 \end{figure}
+
+Dla osób niepracujących z~kodem Unreal Engine udostępnia rozbudowany interfejs, pozwalający na stworzenie gry bez konieczności pisania kodu. Podobnie jak w~przypadku Unity, projekt gry składa się z~powiązanych ze sobą scen, tutaj nazywanych poziomami. Na każdej ze scen umieszczone są obiekty, nazywane aktorami, pomiędzy którymi zaprogramowane są interakcje specyficzne dla danej sceny. Osoba tworząca grę może zaprogramować jej logikę przy pomocy skryptów wizualnych. Tutaj warto opisać kolejny atut wyróżniający ten silnik na tle innych, którym jest możliwość korzystania z~edytora przy pomocy okularów wirtualnej rzeczywistości podczas tworzenia gier na tę platformę (rys. \ref{fig:unreal_vr_editor}). Twórca dostaje możliwość dokładnego zaprojektowania świata gry, patrząc na nią od razu z~perspektywy gracza. 
 
 Unreal Engine jest obecnie drugą, tuż po Unity, najpopularniejszą otwartą platformą do gier. Przewaga Unity wynika tutaj nie z~większych możliwości silnika, ale z~jego otwartości od początku istnienia. Ponieważ jednak przez wiele lat Unreal Engine był wykorzystywany głównie w~rozwiązaniach komercyjnych, posiada rozbudowaną, złożoną dokumentację, która opisuje każdy fragment możliwości edytora. Po udostępnieniu darmowej wersji oprogramowania pojawiła się także duża ilość materiałów na temat tworzenia gier przy pomocy Unreal Engine, a~także urosła społeczność twórców gier, którzy wykorzystują ten silnik i~wymieniają się między sobą cennymi informacjami. 
