@@ -16,7 +16,14 @@ Aby wybrać odpowiedni dla przygotowywanego prototypu interfejsu zestaw urządze
 
 
 \section{Garmin HRM-Run}
-Krótko o~urządzeniu, co odczytujemy, dlaczego to a~nie n.p. BITalino
+Garmin HRM-Run jest jednym z~wielu dostępnych czujników tętna produkowanych przez firmę Garmin. Urządzenie zbudowane jest z~modułu zawierającego całą elektronikę odpowiedzialną za interpretację oraz wysyłanie odczytywanych danych. Moduł zasilany jest baterią CR2032 i~zamontowany jest na elastycznej opasce, umożliwiającej zamontowanie opaski na klatce piersiowej. Sama opaska zawiera dwie elektrody, które odpowiadają za odczyt sygnałów fizjologicznych, które następnie są przekazywane w~formie informacji na temat pracy serca. 
+
+Urządzenie, poza podstawowym pomiarem liczby uderzeń na minutę, pozwala na odczyt dodatkowych informacji na temat zmienności rytmu zatokowego w~postaci odstępów czasowych pomiędzy kolejnymi tzw. załamkami R, czyli szczytami kompleksów QRS. Na podstawie tej informacji można określić stan zdrowotny użytkownika lub zmiany jego stanu emocjonalnego. Dla przykładu nagłe spadki w~zmienności rytmu zatokowego mogą sygnalizować możliwość odczuwania stresu przez użytkownika. HRM-Run umożliwia także odczyt pomiarów dynamiki biegu takich jak liczba kroków na minutę, czas kontaktu z~podłożem czy długość kroku. Ze względu na charakter pracy, która skupia się głównie na tematyce gier komputerowych, pomiary te nie były brane pod uwagę. 
+
+Urządzenie HRM-Run zostało wybrane, ponieważ stanowi pewien kompromis pomiędzy dokładnością odczytów a~rozmiarami i~wygodą użytkowania. W~porównaniu do inteligentnych opasek, które charakteryzują się najwyższą wygodą użytkowania spośród omówionych w~rozdziale \ref{cha:specyfikacja} urządzeń umożliwiających pomiar tętna, Garmin HRM-Run pozwala na o~wiele dokładniejsze odczyty, nie powodując jednocześnie dyskomfortu podczas użytkowania. Jest to możliwe dzięki wykorzystaniu elastycznej opaski ze wbudowanymi suchymi elektrodami, które w~przeciwieństwie do fotopletyzmografu odpowiadającego za optyczny odczyt tętna w~inteligentnych opaskach, odbierają sygnały elektryczne bezpośrednio z~ciała użytkownika, które są następnie interpretowane do danych w~postaci wykrycia kolejnych uderzeń serca. Opaski charakteryzują się także dużymi opóźnieniami w~stosunku do aktualnego tętna użytkownika, co w~przypadku rozpoznawania emocji w~sposób ciągły całkowicie eliminuje je jako akceptowalne urządzenia. Jednocześnie, elastyczna opaska, do której przymocowany jest moduł, w~bardzo prosty sposób jest zakładana przez użytkownika na klatce piersiowej, Takie umiejscowienie i~brak kabli łączących elektrody z~głównym modułem sprawia, że użytkownik nie czuje dyskomfortu podczas noszenia urządzenia. W~podobny sposób Garmin HRM-Run można porównać z~omawianym wcześniej BITalino (r)evolution kit. W~tym przypadku można zauważyć sytuację odwrotną, niż przy porównaniu z~inteligentnymi opaskami. BITalino oferuje bardzo dokładny odczyt pracy serca, nie tylko w~formie liczby uderzeń na minutę, ale pełnego elektrokardiogramu, który umożliwia o~wiele szerszą analizę pracy serca. Niestety, odczyt wymaga zamocowania przyklejanych elektrod, które połączone są przewodami z~sensorem, a~następnie z~samym BITalino. Taki sposób montażu może wpłynąć negatywnie na komfort podczas gry, co nie wystąpi w~przypadku urządzenia HRM-Run.
+
+Innym aspektem, który zadecydował o~wyborze tego urządzenia, jest obsługa dwóch protokołów bezprzewodowego przesyłania danych. Poza standardowym połączeniem dzięki technologii Bluetooth HRM-Run wykorzystuje także protokół ANT+ rozwijany przez firmę Garmin. Jego główną zaletą jest brak ograniczeń co do ilości urządzeń, które mogą odczytywać dane z~czujnika. W~przeciwieństwie do technologii Bluetooth, która ogranicza połączenie do jednego, lub w~przypadku Bluetooth Smart do dwóch urządzeń, pomiar przy pomocy protokołu ANT+ umożliwia jednoczesne odczytywanie danych w~grze i~monitorowanie pracy serca przy pomocy innych urządzeń lub aplikacji korzystających z~tego protokołu. 
+
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5\linewidth]{images/garmin_hrm_placement.png}
@@ -25,7 +32,7 @@ Krótko o~urządzeniu, co odczytujemy, dlaczego to a~nie n.p. BITalino
 \end{figure}
 
 \section{BITalino Revolution Kit}
-Krótko o~urządzeniu i~możliwościach, dlaczego tylko EMG (elektrody, nadmiar kabli, ogólne wady i~zalety)
+
 \begin{figure}
 	\centering
 	\includegraphics[height=0.3\textheight]{images/bitalino_placement.jpg}
