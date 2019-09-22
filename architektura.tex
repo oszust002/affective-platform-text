@@ -1,6 +1,6 @@
 \chapter{Architektura}
 \label{cha:architektura}
-Na podstawie analizy możliwych rozwiązań sprzętowych w~rozdziale \ref{cha:specyfikacja} oraz przedstawionych poniżej założeń architektury platformy dokonano wyboru urządzeń, które będą stanowiły część sprzętową tworzonego interfejsu.
+Na podstawie analizy możliwych rozwiązań sprzętowych w~rozdziale \ref{cha:specyfikacja} oraz przedstawionych poniżej założeń architektury platformy dokonano wyboru urządzeń, które będą stanowiły część sprzętową tworzonego interfejsu. W~tym rozdziale zostanie przedstawiona ich specyfikacja oraz argumenty, które przemawiają za wyborem każdego z~urządzeń. Opisany zostanie także sposób montażu sprzętu.
 
 \section{Założenia architektury sprzętowej}
 Aby wybrać odpowiedni dla przygotowywanego prototypu interfejsu zestaw urządzeń, określone zostały założenia i~wymagania, jakie urządzenia powinny spełniać:
@@ -34,7 +34,7 @@ Innym aspektem, który zadecydował o~wyborze tego urządzenia, jest obsługa dw
 \section{BITalino (r)evolution kit}
 BITalino (r)evolution Plugged Kit BT jest urządzeniem produkowanym przez firmę PLUX Wireless Biosignals przeznaczonym do tworzenia platform, w~których zawarte są elementy wymagające informacji na temat sygnałów fizjologicznych. Główny element narzędzia stanowi płytka zbudowana z~następujących elementów~\cite{bitalino_documentation}:
 \begin{itemize}
-	\item 10 złącz UC-E6, w~ramach których można wyróżnić: 6~wejść analogowych, 1~wejście cyfrowe, 1~wyjście cyfrowe, 1~złącze mogące pracować w~trybie wejścia lub wyjścia cyfrowego, oraz 1~złącze PWM, do którego może zostać podłączony przetwornik DAC lub dioda LED. Złącza są podzielone na 2~grupy w~oddzielnych segmentach.
+	\item 10~złącz UC-E6, w~ramach których można wyróżnić: 6~wejść analogowych, 1~wejście cyfrowe, 1~wyjście cyfrowe, 1~złącze mogące pracować w~trybie wejścia lub wyjścia cyfrowego, oraz 1~złącze PWM, do którego może zostać podłączony przetwornik DAC lub dioda LED. Złącza są podzielone na 2~grupy w~oddzielnych segmentach.
 	\item mikrokontroler z~mikroprocesorem oraz stykami umożliwiającymi połączenie każdego z~segmentów w~sposób inny niż standardowy.
 	\item segment zasilający, zawierający włącznik, gniazdo ładownia w~formie złącza micro-USB oraz złącze JST, do którego podłączana jest bateria 3.7V zasilająca całą płytkę
 	\item moduł Bluetooth odpowiadający za przesył danych z~płytki
@@ -44,7 +44,7 @@ W ramach przygotowywanego interfejsu, z~dostępnych sensorów opisanych w~rozdzi
 
 Głównym powodem wyboru BITalino oraz samego modułu EMG jest wykorzystanie sygnałów fizjologicznych do kontrolowania gry w~świadomy sposób. Odczyt zmian napięcia mięśni podskórnych może pozwolić na wykrycie, kiedy i~jak mocno są one używane, co może następnie zostać wykorzystane do zaimplementowania mechanik w~grze uruchamianych na podstawie konkretnych reakcji mięśniowych. Kolejnym powodem wykorzystania urządzenia jest możliwość sprawdzenia, w~jakim stopniu użytkownik tak naprawdę odczuwa dyskomfort podczas używania elektrod przyklejanych do skóry. Pozwoli to stwierdzić, czy urządzenia takie jak BITalino, które umożliwiają dokładny odczyt dzięki wykorzystaniu elementów bliższych rozwiązaniom medycznym, mogłyby przyjąć się jako stały element stanowiska do gier.
 
-Ponieważ odczyty z~elektromiogramu mają posłużyć jako pewien element kontroli nad grą, jako miejsce, do którego podłączony będzie sensor, wybrano przedramię, ponieważ ruch mięśni znajdujących się w~tamtej części ciała może być precyzyjny. Dzięki temu użytkownik w prosty sposób, poprzez ruchy nadgarstka lub dłoni, może kontrolować napięcie mięśni w trakcie rozgrywki. Sposób montażu elektrod został przedstawiony na rysunku~\ref{fig:bitalino_placement}. Elektrody czerwona i czarna powinny znajdować się na wewnętrznej części przedramienia, równolegle do niego, stosunkowo blisko siebie. Elektroda referencyjna, w BITalino oznaczona kolorem białym, powinna znajdować się na wystającej kości łokciowej.
+Ponieważ odczyty z~elektromiogramu mają posłużyć jako pewien element kontroli nad grą, jako miejsce, do którego podłączony będzie sensor, wybrano przedramię, ponieważ ruch mięśni znajdujących się w~tamtej części ciała może być precyzyjny. Dzięki temu użytkownik w~prosty sposób, poprzez ruchy nadgarstka lub dłoni, może kontrolować napięcie mięśni w~trakcie rozgrywki. Sposób montażu elektrod został przedstawiony na rysunku~\ref{fig:bitalino_placement}. Elektrody czerwona i~czarna powinny znajdować się na wewnętrznej części przedramienia, równolegle do niego, stosunkowo blisko siebie. Elektroda referencyjna, w~BITalino oznaczona kolorem białym, powinna znajdować się na wystającej kości łokciowej.
 \begin{figure}
 	\centering
 	\includegraphics[height=0.3\textheight]{images/bitalino_placement.jpg}
@@ -52,5 +52,27 @@ Ponieważ odczyty z~elektromiogramu mają posłużyć jako pewien element kontro
 	\label{fig:bitalino_placement}
 \end{figure}
 
-\section{Dualshock 4}
-krótko o~urządzeniu, wykorzystanie akcelerometru do odczytu pobudzenia gracza
+\section{DualShock 4}
+DualShock 4~jest urządzeniem produkowanym przez firmę Sony, stworzonym początkowo jako kontroler do konsoli PlayStation 4. Na przyciski dostępne na jego powierzchni składają się~\cite{dualshock_specification}:
+\begin{itemize}
+	\item 2~gałki analogowe, gdzie dla każdej z~nich odczyty interpretowane są jako ciągły sygnał wejściowy przedstawiony w~dwóch wymiarach.
+	\item Pad kierunkowy (ang. \textit{d-pad}), który stanowi cyfrowy odpowiednik gałki analogowej. Lew i~prawy przycisk odpowiadają wartościom granicznym osi horyzontalnej, górny i~dolny są przypisane w~podobny sposób do osi wertykalnej.
+	\item 9~przycisków cyfrowych, na które składają się: 4~przyciski akcji (trójkąt, kwadrat, krzyżyk, kółko), L3 i~R3 zamontowane pod gałkami analogowymi oraz przyciski PS, SHARE i~OPTIONS, domyślnie służące do zarządzania funkcjonalnościami konsoli.
+	\item 2~przyciski L1 i~R1, dla których wykrycie wciśnięcia opiera się na sile nacisku na przycisk.
+	\item 2~analogowe spusty L2 i~R2, których wciśnięcie jest odczytywane jako sygnał w~określonym zakresie wartości.
+	\item dwupunktowy panel dotykowy, posiadający także możliwość kliknięcia go.
+\end{itemize}
+Innymi elementami widocznymi na kontrolerze są wbudowany głośnik, wejście słuchawkowe Jack 3.5mm, umieszczony na froncie pasek świetlny RGB oraz złącze micro-USB służące do ładowania i~podłączenia kontrolera w~przypadku braku połączenia Bluetooth. Kontroler, wraz ze wszystkimi opisanymi powyżej elementami, został przedstawiony na rysunku~\ref{fig:hardware}.
+
+Poza widocznymi elementami kontroler posiada także wbudowane moduły wibrujące, żyroskop oraz akcelerometr. To właśnie dwa ostatnie z~wymienionych elementów wpłynęły na wybór urządzenia jako części przygotowywanego interfejsu. W~porównaniu do innych dostępnych kontrolerów, poza klasycznym wykorzystaniem narzędzia jako kontrolera do gier akcelerometr wbudowany w~DualShocka może posłużyć jako źródło danych, które w~pośredni sposób mogą określać pewne elementy stanu emocjonalnego użytkownika. Bardziej pobudzony gracz, może zupełnie nieświadomie poruszać kontrolerem, natomiast brak zmian w~odczytach może sugerować, że użytkownik jest skupiony lub znudzony. W~porównaniu do określania ilości kliknięć na myszy i~kontrolerze w~danym czasie, wykorzystanie akcelerometru jest lepszym rozwiązaniem, ponieważ ruchy dłoni gracza trzymającego kontroler są instynktowne w~sytuacjach wywołujących pobudzenie. Sceny wywołujące nagły strach, mogą doprowadzić do ruchu całego ciała, natomiast sytuacje wywołujące złość lub desperację mogą wywołać subtelne zmiany pozycji rąk na kontrolerze, co wywoła zmianę wartości na akcelerometrze. Interpretacja tych zmian oraz odczytów pracy serca pozwoli na dokładniejsze określenie, jaką emocję odczuwa gracz w~danym momencie.
+
+Minusem, który warto zaznaczyć w~przypadku DualShocka, jest ograniczenie dostępności oprogramowania pozwalającego odczytywać pomiary z~akcelerometru. Z~powodu licencji narzuconych przez producenta kontrolerów, które domyślnie są przeznaczone dla konsoli PlayStation 4, większość dodatków i~bibliotek wykorzystywanych w~silnikach do gier jest dostępnych wyłączenie w~wersji płatnej, a~oficjalne oprogramowanie od twórców jest udostępniane wyłączenie osobom zatwierdzonym przez Sony jako twórcy gier na konsolę PlayStation 4. Jednak pomimo tego ograniczenia, zdecydowano się na wybór urządzenia jako części przygotowywanego interfejsu.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/hardware.jpg}
+	\caption{Moduły sprzętowe wykorzystywane w~platformie. Od lewej: kontroler DualShock 4, czujnik tętna Garmin HRM-Run, BITalino z~modułem EMG}
+	\label{fig:hardware}
+\end{figure}
+
+Na rysunku~\ref{fig:hardware} przedstawiony został pełen zestaw urządzeń wykorzystanych w~przygotowywanym interfejsie. Pozyskane z~nich odczyty zostaną wykorzystane do rozpoznania stanu emocjonalnego gracza, a~także do kontrolowania mechanik wykorzystywanych w~grze. Dokładny opis, w~jaki sposób dane będą odczytywane oraz jak będzie wyglądał model do predykcji emocji użytkownika, zostaną opisane w~rozdziałach~\ref{cha:predykcja} i~\ref{cha:implementacja}.
