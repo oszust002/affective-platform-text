@@ -114,7 +114,60 @@ Tak przygotowane skrypty do odczytu i~wstępnej analizy danych z~opaski do pomia
 	\item \textbf{EmotionManager}, zarządzający pozostałymi skryptami do odczytywania emocji i~będący punktem wyjściowym dla przekazywania stanu emocjonalnego gracza do innych obiektów. Głównym zadaniem skryptu jest uruchomienie pobierania danych z~opaski i~akcelerometru, a~następnie określenie emocji użytkownika na podstawie klasy zwróconej przez model rozpoznający emocję oraz stanu pobudzenia zwracanego przez skrypt AccelerationHandler. W~momencie pobierania emocji wywoływane jest zapytanie do serwera przy pomocy skryptu ClassifierApiManager o~stan emocjonalny użytkownika na podstawie danych z~opaski. Zwrócona klasa emocji jest konwertowana do obiektu zawierającego poziomy wartości \textit{valence} i~\textit{arousal}, a~następnie przy pomocy odczytanego z~akcelerometru stanu pobudzenia, są one weryfikowane. Ponieważ pomiar \textit{arousal} jest związany bezpośrednio z~pobudzeniem gracza, to właśnie ta wartość była modyfikowana. Jeżeli stan zwracany przez odczyty z~akcelerometru wskazywał na pobudzenie użytkownika, poziom \textit{arousal} był zwiększany, natomiast w~przypadku bardzo spokojnej gry, był on zmniejszany. Dzięki takiemu podejściu można było łatwo weryfikować klasę zwracaną przez model, która nie zawsze mogła dokładnie odzwierciedlać stan emocjonalny gracza w~danym momencie rozgrywki. Po odczytaniu emocji następowało wywołanie zdarzenia o~nowej emocji, które jako parametr przyjmowało emocję odczytaną w~danym momencie oraz stan poprzedni. Wykorzystanie poprzedniej emocji miało na celu rozszerzenie kontekstu zmian emocji użytkownika i~ich interpretację przez konkretne elementy gry. Do najważniejszych parametrów skryptu EmotionManager należą przede wszystkim czas poświęcony na kalibrację oraz parametr określający co ile ma zostać wykonane zapytanie o~stan emocjonalny użytkownika. 
 \end{itemize}
 
-Obiekty BITalino i~EmotionManager zostaly następnie połączone w~hierarchii pod obiektem AffectiveManager. Obiekt ten miał służyć jako rdzeń przygotowywanego w~ramach pracy magisterskiej interfejsu. Do obiektu został przypisany także skrypt o~tej samej nazwie, którego głównymi zadaniami było uruchamianie oraz wyłączanie mechanizmów opisanych powyżej, a~także rozpoczynanie fazy kalibracji dla mechanizmu do odczytywania emocji oraz odczytów z~elektromiografu. Dodany został także obiekt Logger, którego skrypt odpowiadał za zapisywanie informacji o~odczytanych stanach emocjonalnych oraz momentach wykrycia napięcia mięśni. W~przypadku odczytywania emocji zapisywane są poziomy \textit{valence} i~\textit{arousal} po weryfikacji odczytami z~akcelerometru oraz wartości cech modelu, dla których zostały one wyliczone. Pomiary te mogą posłużyć jako dodatkowe dane uczące, które mogą poprawić skuteczność modelu opisanego w~rozdziale~\ref{cha:predykcja}. W~przypadku odczytów z~elektromiografu zapisywane były momenty napięcia mięśni przedramienia wraz ze średnią wartością z~elektromiografu. Każde zdarzenie było zapisywane w~pamięci wraz z~czasem jego wystąpienia, a~w momencie zakończenia rozgrywki były one zapisywane w~pliku CSV.
+Obiekty BITalino i~EmotionManager zostaly następnie połączone w~hierarchii pod obiektem AffectiveManager. Obiekt ten miał służyć jako rdzeń przygotowywanego w~ramach pracy magisterskiej interfejsu. Tak przygotowana hierarchia umożliwiała łatwe jego wprowadzenie do istniejącego już kodu gry. Do obiektu AffectiveManager został przypisany także skrypt o~tej samej nazwie, którego głównymi zadaniami było uruchamianie oraz wyłączanie mechanizmów opisanych powyżej, a~także rozpoczynanie fazy kalibracji dla mechanizmu do odczytywania emocji oraz odczytów z~elektromiografu. Dodany został także obiekt Logger, którego skrypt odpowiadał za zapisywanie informacji o~odczytanych stanach emocjonalnych oraz momentach wykrycia napięcia mięśni. W~przypadku odczytywania emocji zapisywane są poziomy \textit{valence} i~\textit{arousal} po weryfikacji odczytami z~akcelerometru oraz wartości cech modelu, dla których zostały one wyliczone. Pomiary te mogą posłużyć jako dodatkowe dane uczące, które mogą poprawić skuteczność modelu opisanego w~rozdziale~\ref{cha:predykcja}. W~przypadku odczytów z~elektromiografu zapisywane były momenty napięcia mięśni przedramienia wraz ze średnią wartością z~elektromiografu. Każde zdarzenie było zapisywane w~pamięci wraz z~czasem jego wystąpienia, a~w momencie zakończenia rozgrywki były one zapisywane w~pliku CSV.
 
 \section{Domknięcie pętli afektywnej}
-Mechaniki, reakcja na konkretne emocje i~odczyty z~EMG, jak działa wersja bez emocji
+Po stworzeniu opisanego w~poprzedniej sekcji interfejsu kolejnym krokiem było domknięcie pętli afektywnej. Oznaczało to uzależnienie pewnych elementów gry od stanu emocjonalnego i~reakcji użytkownika. Aby to osiągnąć, wymagana była modyfikacja podstawowej wersji gry i~zmiana działania jej mechanik w~zależności od wartości zwracanych przez skrypty EmotionManager i~SensorController.
+
+Aby umożliwić integrację gry z~interfejsem, w~głównym menu gry przygotowana została opcja, która decyduje o~tym, czy mechaniki afektywne mają zostać uruchomione po rozpoczęciu gry. Następnie, w~ramach skryptu MainMenu, zmodyfikowany został proces wyświetlania wprowadzenia. W~przypadku wersji afektywnej wyświetlony zostaje tekst informujący użytkownika o~przeprowadzanej na początku kalibracji interfejsu oraz zasadach, których powinien przestrzegać w~trakcie jej trwania (rys.~\ref{fig:introductions}). Użytkownik proszony jest o~uspokojenie się, wzięcie kilku głębokich oddechów oraz nieporuszanie kontrolerem w~trakcie przeprowadzania kalibracji. W~tym samym momencie uruchamiany zostaje odczyt danych z~urządzeń pomiarowych, a~po kilku sekundach rozpoczynana jest kalibracja trwająca przez określony w~parametrach interfejsu czas. Wcześniejsze uruchomienie odczytu pozwoliło na odrzucenie pierwszych pomiarów z~urządzeń, które mogły charakteryzować się dużym błędem ze względu na start urządzeń.
+\begin{figure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/nonaffectiveintroduction.png}
+		\caption{Wprowadzenie w~wersji podstawowej}
+		\label{fig:nonaffectiveintroduction}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{images/affectiveintroduction.png}
+		\caption{Wprowadzenie w~wersji afektywnej}
+		\label{fig:affectiveintroduction}
+	\end{subfigure}
+	\caption{Ekran wprowadzenia dla obu wersji gier}
+	\label{fig:introductions}
+\end{figure}
+
+Kolejnym krokiem w~integracji interfejsu było przygotowanie mechanik afektywnych, które wpływają na poszczególne elementy rozgrywki w~zależności od odczuwanych przez użytkownika emocji lub napięcia mięśni przedramienia. W~ramach skryptów odpowiadających za konkretne elementy rozgrywki przygotowane zostały funkcje, które następnie zarejestrowano jako obserwatorzy wystąpienia nowej emocji lub napięcia mięśni. Aby ułatwić interpretację poziomów \textit{valence} i~\textit{arousal} zwracanych w~ramach obiektu reprezentującego odczuwaną emocję, stworzone zostały stałe, które przypisują każdą z~par obu wartości do konkretnej emocji. Interpretacja każdej z~kombinacji została przedstawiona w~tabeli~\ref{tab:emotions}. W~ramach zaimplementowanych mechanik afektywnych można wyróżnić:
+\begin{enumerate}
+	\item \textbf{Aktywacja mocy specjalnej po wykryciu napięcia mięśni przedramienia}. Mechanika ta stanowi alternatywę dla uruchomienia mocy specjalnej przy pomocy przycisku na kontrolerze. Uruchomienie jej bez wyłączania akcji z~podstawowej wersji gry pozwala użytkownikowi wybrać sposób aktywacji, który jest dla niego wygodniejszy.
+	\item \textbf{Aktywacja mocy specjalnej w~momencie, gdy gracz przez dłuższy czas odczuwa złość}. W~odróżnieniu od poprzedniego punktu, w~tym przypadku moc specjalna aktywowana jest niezależnie od jej dostępności w~momencie, gdy poprzednia i~aktualnie odczytana emocja to złość. 
+	\item \textbf{Zmiana ilości punktów życia gracza na podstawie odczuwanych emocji}. Można wyróżnić tutaj następujące możliwości:
+	\begin{itemize}
+		\item Odebranie graczowi 40\% punktów życia w~przypadku odczuwania przez dłuższy czas emocji neutralnej, zmęczenia lub zrelaksowania. Taka reakcja miała na celu pobudzenie gracza do skupienia się na rozgrywce ze względu na nagłą trudną sytuację.
+		\item Odebranie graczowi 20\% punktów życia w~momencie odczuwania przez dłuższy czas szczęścia lub ekscytacji. Emocje te zostały wydzielone do lżejszej wersji negatywnego efektu, aby uniknąć nadmiernego zdenerwowania gracza, ale jednocześnie wzbudzić w~nim potrzebę skupienia się na grze.
+		\item Przywrócenie 10\% punktów życia w~momencie odczuwania smutku lub strachu. Efekt ten miał posłużyć jako pomoc dla gracza i~wywołanie przez to u niego pozytywnych emocji.
+	\end{itemize}
+	\item \textbf{Aktywacja dodatkowych fal przeciwników w przypadku odczuwania przez gracza emocji neutralnej, zrelaksowania, zmęczenia lub szczęścia}. W przypadku trzech pierwszych emocji mechanika ta miała na celu postawienie graczowi wyzwania. Uruchomienie jej w momencie odczuwania szczęścia przez gracza miało na celu wywołanie u niego emocji przeciwstawnych takich jak strach czy złość.
+	\item \textbf{Aktywacja i~dezaktywacja trybu trudnego gry w~zależności od odczuwanej emocji}. Mechanika ta zastępowała jej podstawową wersję opartą na częstotliwości zdobywania punktów. W przypadku odczuwania przez gracza złości lub strachu była ona dezaktywowana, natomiast aktywacja następowała w momencie odczuwania przez gracza emocji neutralnej, zrelaksowania lub zmęczenia.
+\end{enumerate}
+
+\begin{table}
+	\centering
+	\caption{Interpretacja kombinacji poziomów \textit{valence} i~\textit{arousal} jako emocje.}
+	\label{tab:emotions}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		\diagbox[width=8em]{\textbf{Valence}}{\textbf{Arousal}}      & LOW    & MEDIUM           & HIGH          \\ \hline
+		LOW    & Smutek & Zmęczenie        & Zrelaksowanie \\ \hline
+		MEDIUM & Złość  & Emocja neutralna & Szczęście     \\ \hline
+		HIGH   & Strach & Zaskoczenie      & Ekscytacja    \\ \hline
+	\end{tabular}
+\end{table}
+
+Implementacja interfejsu do rozpoznawania emocji i zachowań gracza umożliwiła stworzenie gry zawierającej pętlę afektywną. Aby zrealizować w pełni założenia programowania afektywnego, każda z mechanik zmieniała rozgrywkę w taki sposób, aby wzbudzić w użytkowniku inny rodzaj emocji od aktualnie odczuwanych. Przygotowany interfejs umożliwił łatwą implementację każdej z nich bez konieczności modyfikacji oryginalnego kodu gry dzięki rejestracji funkcji uruchamianych w momencie odczytania emocji.
+
+%PlayerShooter - jeśli squeeze i~special dostępny to use special
+%EnemySpawner - jeśli M/M, H/M, H/L, M/L to spawn kolejnej fali (niezależnie od częstotliwości)
+%Player - jeśli L/H,L/L to leczenie 10pr hp. Jeśli L/M i~previous L/M to special power niezależnie od czasu. Jeśli H/M lub H/H, i~previous H/M lub H/H to zadaj 20pr obrażeń. Jeśli M/M, M/L, H/L przez dłuższy czas to 40pr obrażeń. 
+%Progress - jeśli M/M, M/L, H/L i~nie ma hard mode to hard mode. Jeśli L/M to wyłącz hard mode. Jeśli L/H i~previous też to wyłącz hard mode.
+%Mechaniki, reakcja na konkretne emocje i~odczyty z~EMG, jak działa wersja bez emocji
