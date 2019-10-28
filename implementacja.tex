@@ -147,8 +147,8 @@ Kolejnym krokiem w~integracji interfejsu było przygotowanie mechanik afektywnyc
 		\item Odebranie graczowi 20\% punktów życia w~momencie odczuwania przez dłuższy czas szczęścia lub ekscytacji. Emocje te zostały wydzielone do lżejszej wersji negatywnego efektu, aby uniknąć nadmiernego zdenerwowania gracza, ale jednocześnie wzbudzić w~nim potrzebę skupienia się na grze.
 		\item Przywrócenie 10\% punktów życia w~momencie odczuwania smutku lub strachu. Efekt ten miał posłużyć jako pomoc dla gracza i~wywołanie przez to u niego pozytywnych emocji.
 	\end{itemize}
-	\item \textbf{Aktywacja dodatkowych fal przeciwników w przypadku odczuwania przez gracza emocji neutralnej, zrelaksowania, zmęczenia lub szczęścia}. W przypadku trzech pierwszych emocji mechanika ta miała na celu postawienie graczowi wyzwania. Uruchomienie jej w momencie odczuwania szczęścia przez gracza miało na celu wywołanie u niego emocji przeciwstawnych takich jak strach czy złość.
-	\item \textbf{Aktywacja i~dezaktywacja trybu trudnego gry w~zależności od odczuwanej emocji}. Mechanika ta zastępowała jej podstawową wersję opartą na częstotliwości zdobywania punktów. W przypadku odczuwania przez gracza złości lub strachu była ona dezaktywowana, natomiast aktywacja następowała w momencie odczuwania przez gracza emocji neutralnej, zrelaksowania lub zmęczenia.
+	\item \textbf{Aktywacja dodatkowych fal przeciwników w~przypadku odczuwania przez gracza emocji neutralnej, zrelaksowania, zmęczenia lub szczęścia}. W~przypadku trzech pierwszych emocji mechanika ta miała na celu postawienie graczowi wyzwania. Uruchomienie jej w~momencie odczuwania szczęścia przez gracza miało na celu wywołanie u niego emocji przeciwstawnych takich jak strach czy złość.
+	\item \textbf{Aktywacja i~dezaktywacja trybu trudnego gry w~zależności od odczuwanej emocji}. Mechanika ta zastępowała jej podstawową wersję opartą na częstotliwości zdobywania punktów. W~przypadku odczuwania przez gracza złości lub strachu była ona dezaktywowana, natomiast aktywacja następowała w~momencie odczuwania przez gracza emocji neutralnej, zrelaksowania lub zmęczenia.
 \end{enumerate}
 
 \begin{table}
@@ -158,16 +158,10 @@ Kolejnym krokiem w~integracji interfejsu było przygotowanie mechanik afektywnyc
 	\begin{tabular}{|l|l|l|l|}
 		\hline
 		\diagbox[width=8em]{\textbf{Valence}}{\textbf{Arousal}}      & LOW    & MEDIUM           & HIGH          \\ \hline
-		LOW    & Smutek & Zmęczenie        & Zrelaksowanie \\ \hline
-		MEDIUM & Złość  & Emocja neutralna & Szczęście     \\ \hline
-		HIGH   & Strach & Zaskoczenie      & Ekscytacja    \\ \hline
+		LOW    & Smutek & Złość        & Strach \\ \hline
+		MEDIUM & Zmęczenie  & Emocja neutralna & Zaskoczenie     \\ \hline
+		HIGH   & Zrelaksowanie & Szczęście      & Ekscytacja    \\ \hline
 	\end{tabular}
 \end{table}
 
-Implementacja interfejsu do rozpoznawania emocji i zachowań gracza umożliwiła stworzenie gry zawierającej pętlę afektywną. Aby zrealizować w pełni założenia programowania afektywnego, każda z mechanik zmieniała rozgrywkę w taki sposób, aby wzbudzić w użytkowniku inny rodzaj emocji od aktualnie odczuwanych. Przygotowany interfejs umożliwił łatwą implementację każdej z nich bez konieczności modyfikacji oryginalnego kodu gry dzięki rejestracji funkcji uruchamianych w momencie odczytania emocji.
-
-%PlayerShooter - jeśli squeeze i~special dostępny to use special
-%EnemySpawner - jeśli M/M, H/M, H/L, M/L to spawn kolejnej fali (niezależnie od częstotliwości)
-%Player - jeśli L/H,L/L to leczenie 10pr hp. Jeśli L/M i~previous L/M to special power niezależnie od czasu. Jeśli H/M lub H/H, i~previous H/M lub H/H to zadaj 20pr obrażeń. Jeśli M/M, M/L, H/L przez dłuższy czas to 40pr obrażeń. 
-%Progress - jeśli M/M, M/L, H/L i~nie ma hard mode to hard mode. Jeśli L/M to wyłącz hard mode. Jeśli L/H i~previous też to wyłącz hard mode.
-%Mechaniki, reakcja na konkretne emocje i~odczyty z~EMG, jak działa wersja bez emocji
+Implementacja interfejsu do rozpoznawania emocji i~zachowań gracza umożliwiła stworzenie gry zawierającej pętlę afektywną. Aby zrealizować w~pełni założenia programowania afektywnego, każda z~mechanik zmieniała rozgrywkę w~taki sposób, aby wzbudzić w~użytkowniku inny rodzaj emocji od aktualnie odczuwanych. Przygotowany interfejs umożliwił łatwą implementację każdej z~nich bez konieczności modyfikacji oryginalnego kodu gry dzięki rejestracji funkcji uruchamianych w~momencie odczytania emocji.
