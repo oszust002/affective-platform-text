@@ -1,13 +1,13 @@
 \chapter{Architektura}
 \label{cha:architektura}
-Na podstawie analizy możliwych rozwiązań sprzętowych w~rozdziale \ref{cha:specyfikacja} oraz przedstawionych poniżej założeń architektury platformy dokonano wyboru urządzeń, które będą stanowiły część sprzętową tworzonego interfejsu. W~tym rozdziale zostanie przedstawiona ich specyfikacja oraz argumenty, które przemawiają za wyborem każdego z~urządzeń. Opisany zostanie także sposób montażu sprzętu.
+Na podstawie analizy możliwych rozwiązań sprzętowych w~rozdziale~\ref{cha:specyfikacja} oraz przedstawionych poniżej założeń architektury platformy dokonano wyboru urządzeń, które będą stanowiły część sprzętową tworzonego interfejsu. W~tym rozdziale przedstawiono ich specyfikacje oraz argumenty, które przemawiają za wyborem każdego z~nich. Opisano także sposób montażu sprzętu.
 
 \section{Założenia architektury sprzętowej}
-Aby wybrać odpowiedni dla przygotowywanego prototypu interfejsu zestaw urządzeń, określone zostały założenia i~wymagania, jakie urządzenia powinny spełniać:
+Aby wybrać odpowiedni dla przygotowywanego prototypu interfejsu zestaw urządzeń, określone zostały założenia i~wymagania, jakie powinny one spełniać:
 \begin{enumerate}
-\item Urządzenie powinno być lekkie, aby używanie go przez gracza nie powodowało dyskomfortu, który może wpłynąć negatywnie na jakość odbieranych danych.
+\item Platforma sprzętowa powinna być lekka, aby używanie jej przez gracza nie powodowało dyskomfortu, który może wpłynąć negatywnie na jakość odbieranych danych.
 \item Dokładność sensorów dostępnych w~urządzeniu powinna być jak największa, aby mieć pewność odczytywanych zachowań użytkownika.
-\item Urządzenie powinno być łatwe w~obsłudze, zarówno w~kwestii jego zamontowania, jak i~uruchomienia odczytów. Powinno być także jak najmniej inwazyjne podczas pomiaru, aby zminimalizować dyskomfort użytkownika.
+\item Urządzenie powinno być łatwe w~obsłudze, zarówno w~kwestii jego zamontowania, jak i~uruchomienia odczytów. Jednocześnie powinno charakteryzować się jak najmniejszą inwazyjnością podczas pomiaru, aby zminimalizować dyskomfort użytkownika.
 \item Dla wybranego urządzenia powinno być dostępne oprogramowanie umożliwiające odczyt pomiarów w~wybranym środowisku do tworzenia gier. Najlepiej, gdyby rozwiązanie było dostępne w~postaci biblioteki oferowanej przez twórcę sprzętu, lub rozszerzenia silnika, które umożliwi odczyt danych z~urządzenia.
 \item Urządzenie powinno mieć możliwość połączenia bezprzewodowego, najlepiej przy pomocy technologii Bluetooth, lub innego protokołu umożliwiającego bezprzewodowy odczyt pomiarów z~urządzenia.
 \item Przynajmniej jedno z~urządzeń powinno umożliwiać odczyt pracy serca, w~postaci pomiaru pulsu lub elektrokardiogramu. Pomiar pracy serca jest jedną z~podstawowych metod umożliwiających określenie zmiany w~stanie emocjonalnym użytkownika.
